@@ -63,12 +63,18 @@ daysteps <- tapply(activity$steps, activity$date, sum, na.rm=T)
 hist(daysteps, breaks = 20, col = "sky blue",
      xlab = "Total step taker per day",main = "Total no. of steps taken on a day")
 ```
-
+![plot of chunk unnamed-chunk-1](plot1.png)
 **Calculate and report the mean and median of the total number of steps taken per day**
 ```{r, echo=TRUE}
 meanvalue <- mean(daysteps)
 medianvalue <- median(daysteps)
 ```
+```
+## [1] 9354.23
+## [2] 10395
+```
+
+
 Mean: `r meanvalue`, Median:`r medianvalue`
 
 ## What is the average daily activity pattern?
@@ -80,10 +86,14 @@ average_steps <- activity %>% filter(!is.na(steps)) %>% group_by(interval) %>%
         summarize(steps = mean(steps))
 average_steps %>% ggplot(aes(x=interval, y=steps, group=1)) + geom_line()
 ```
+![plot of chunk unnamed-chunk-2](plot2.png)
 
 **Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?**
 ```{r, echo=TRUE}
 max_steps <- average_steps[which.max(average_steps$steps), ][[1]]
+```
+```
+## [1] 835
 ```
 The interval `r max_steps` has the maximum steps
 
@@ -92,6 +102,9 @@ __________________________
 **Calculate and report the total number of missing values in the dataset**
 ```{r, echo=TRUE}
 miss <- sapply(activity, is.na) %>% sum
+```
+```
+##[1] 2304
 ```
 Number of missing values: `r miss`
 
@@ -114,11 +127,15 @@ daysteps_complete <- tapply(activity_complete$steps, activity_complete$date, sum
 hist(daysteps_complete, breaks = 20, col = "sky blue",
      xlab = "Total step taker per day",main = "Total no. of steps taken on a day")
 ```
-
+![plot of chunk unnamed-chunk-3](plot3.png)
 **Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?**
 ```{r, echo=TRUE}
 mean_complete <- mean(daysteps_complete)
 median_complete <- median(daysteps_complete)
+```
+```
+##[1] 10751.74
+##[2] 10656
 ```
 Mean: `r mean_complete`, Median: `r median_complete`
 
@@ -141,3 +158,4 @@ average_steps_complete %>% ggplot(aes(x=interval, y=steps, group=1)) +
         facet_grid(weekdayz~.)
         
 ```
+![plot of chunk unnamed-chunk-4](plot4.png)
